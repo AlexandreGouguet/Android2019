@@ -13,22 +13,22 @@ import java.util.List;
 
 public class GridViewAdapter extends BaseAdapter {
 
-    List<Integer> ImageSource;
+    Integer[][] grille;
     Context mContext;
 
-    public GridViewAdapter(List<Integer> imageSource, Context mContext) {
-        ImageSource = imageSource;
+    public GridViewAdapter(Integer[][] grille, Context mContext) {
+        this.grille = grille;
         this.mContext = mContext;
     }
 
     @Override
     public int getCount() {
-        return ImageSource.size();
+        return this.grille[0].length*this.grille.length;
     }
 
     @Override
     public Object getItem(int position) {
-        return ImageSource.get(position);
+        return this.grille[position/19][position%19];
     }
 
     @Override
@@ -40,21 +40,28 @@ public class GridViewAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView image = new ImageView(mContext);
         image.setLayoutParams(new GridView.LayoutParams(GridView.LayoutParams.MATCH_PARENT, 32));
-        image.setBackgroundColor(Color.WHITE);
-        if(ImageSource.get(position)==5){
+        image.setBackgroundColor(Color.BLACK);
+        int content = getContentAt(position);
+        if(content==5){
             image.setBackgroundColor(Color.BLUE);
         }
-        else if(ImageSource.get(position)==6){
+        else if(content==6){
             int imageResource = mContext.getResources().getIdentifier("@drawable/buble",null, mContext.getPackageName());
             image.setImageResource(imageResource);
         }
-        else if(ImageSource.get(position)==1){
+        else if(content==1){
             int imageResource = mContext.getResources().getIdentifier("@drawable/pacman",null, mContext.getPackageName());
             image.setImageResource(imageResource);
+        }else if(content==7){
+            image.setImageResource(android.R.color.transparent);
         }else{
             int imageResource = mContext.getResources().getIdentifier("@drawable/ghost",null, mContext.getPackageName());
             image.setImageResource(imageResource);
         }
         return image;
+    }
+
+    private int getContentAt(int position){
+        return this.grille[position/19][position%19];
     }
 }

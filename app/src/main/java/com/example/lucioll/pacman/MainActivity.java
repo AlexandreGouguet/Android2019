@@ -1,5 +1,6 @@
 package com.example.lucioll.pacman;
 
+import android.content.Context;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
@@ -26,18 +28,19 @@ public class MainActivity extends AppCompatActivity {
     enum direction {north,south,west,east};
     public Game myApp = new Game();
     public PacMan paci;
+    private static Context context;
+    public List<Integer> ImageSource = new ArrayList<>();
 
-    List<Integer> ImageSource = new ArrayList<>();
+    GridViewAdapter adapter = new GridViewAdapter(myApp.grille,this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        MainActivity.context = getApplicationContext();
 
         //affichage initial
-        setUpList();
-        GridView gridView = (GridView)findViewById(R.id.gridView);
-        GridViewAdapter adapter = new GridViewAdapter(ImageSource,this);
+        GridView gridView = findViewById(R.id.gridView);
         gridView.setAdapter(adapter);
         paci = new PacMan(4,1,4, myApp);
 
@@ -53,34 +56,32 @@ public class MainActivity extends AppCompatActivity {
 
         if(v.getId()==R.id.O){
             //actualiser les positions du pac-man pour le bouton Ouest
-            paci.moving(2);
+            paci.moving(3);
         }
 
         if(v.getId()==R.id.E){
             //actualiser les positions du pac-man pour le bouton Est
-            paci.moving(3);
+            paci.moving(4);
         }
 
         if(v.getId()==R.id.S){
             //actualiser les positions du pac-man pour le bouton Sud
-            paci.moving(4);
+            paci.moving(2);
         }
-        setUpList();
-    }
-
-    private void setUpList(){
-        for (int i = 0; i < myApp.grille.length; i++){
-            Collections.addAll(ImageSource, myApp.grille[i]);
-        }
+        GridView gridView = findViewById(R.id.gridView);
+        adapter.notifyDataSetChanged();
     }
 
     private TimerTask update = new TimerTask() {
         @Override
         public void run() {
             for (int i = 0; i < myApp.grille.length; i++){
-                Collections.addAll(ImageSource, myApp.grille[i]);
+                //GridView gridView = (GridView)findViewById(R.id.gridView);
+                //gridView.invalidateViews();
                 System.out.println(Arrays.toString(myApp.grille[i]));
             }
+            /*GridView gridView = (GridView)findViewById(R.id.gridView);
+            gridView.setAdapter(adapter);*/
         }
     };
 }

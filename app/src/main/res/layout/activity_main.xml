@@ -13,8 +13,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:numColumns="19"
-        android:stretchMode="columnWidth">
-    </GridView>
+        android:stretchMode="columnWidth"></GridView>
 
     <Button
         android:id="@+id/N"
@@ -30,20 +29,21 @@
         android:weightSum="1.0">
 
         <Button
-            android:id="@+id/E"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:text="Right"
-            android:onClick="inputTriggered"/>
-
-        <Button
             android:id="@+id/O"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:text="Left"
-            android:onClick="inputTriggered"/>
+            android:onClick="inputTriggered"
+            android:text="Left" />
+
+        <Button
+            android:id="@+id/E"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:onClick="inputTriggered"
+            android:text="Right" />
+
     </LinearLayout>
 
     <Button
