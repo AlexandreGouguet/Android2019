@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.sql.Time;
 import java.util.ArrayList;
@@ -30,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     public PacMan paci;
     private static Context context;
     public List<Integer> ImageSource = new ArrayList<>();
+    // Create the Handler object (on the main thread by default)
+    Handler handler = new Handler();
 
     GridViewAdapter adapter = new GridViewAdapter(myApp.grille,this);
 
@@ -43,9 +46,10 @@ public class MainActivity extends AppCompatActivity {
         GridView gridView = findViewById(R.id.gridView);
         gridView.setAdapter(adapter);
         paci = new PacMan(4,1,4, myApp);
+        // Start the initial runnable task by posting through the handler
+        handler.post(runnableCode);
 
-        //mise a jour initial
-        mTimer.scheduleAtFixedRate(update, 2000, 2000);
+
     }
 
     public void inputTriggered(View v){
@@ -68,20 +72,22 @@ public class MainActivity extends AppCompatActivity {
             //actualiser les positions du pac-man pour le bouton Sud
             paci.moving(2);
         }
-        GridView gridView = findViewById(R.id.gridView);
         adapter.notifyDataSetChanged();
     }
 
-    private TimerTask update = new TimerTask() {
+
+    // Define the code block to be executed
+    private Runnable runnableCode = new Runnable() {
         @Override
-        public void run() {
+        public void run(){
+            paci.moveAutomatic();
+            System.out.println(Arrays.toString(myApp.grille[i]));
             for (int i = 0; i < myApp.grille.length; i++){
-                //GridView gridView = (GridView)findViewById(R.id.gridView);
-                //gridView.invalidateViews();
                 System.out.println(Arrays.toString(myApp.grille[i]));
             }
-            /*GridView gridView = (GridView)findViewById(R.id.gridView);
-            gridView.setAdapter(adapter);*/
+            adapter.notifyDataSetChanged();
+            handler.postDelayed(runnableCode, 2000);
         }
     };
+
 }
