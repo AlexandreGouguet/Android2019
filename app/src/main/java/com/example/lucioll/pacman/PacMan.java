@@ -2,18 +2,20 @@ package com.example.lucioll.pacman;
 
 public class PacMan{
     //Variable de classe
-    private int x ;
-    private int y ;
-    private int direction ;
+    public int x ;
+    public int y ;
+    public int direction ;
     public Game game;
+    public int score;
 
     //Constructeur avec argument
-    public PacMan(int x , int y, int direction, Game game){
+    public PacMan(Game game,int x , int y, int direction){
         this.setX(x);
         this.setY(y);
         this.setDirection(direction);
         this.game = game;
-        game.grille[y][x]=1;
+        this.game.grille[y][x]=1;
+        int score = 0;
     }
 
     //Fonction qui déplace PacMan
@@ -28,42 +30,41 @@ public class PacMan{
             case 1:
                 if (this.game.grille[y - 1][x] != 5) { //haut
                     if (this.game.grille[y - 1][x] == 6) {
+                        score += 100;
                         this.game.grille[y - 1][x] = 7;
                     }
                     this.game.grille[y][x] = 7;
-                    this.x = x;
                     this.y = y - 1;
                 }
                 break;
             case 2:
                 if (this.game.grille[y + 1][x] != 5) { //bas
                     if (this.game.grille[y + 1][x] == 6) {
+                        score += 100;
                         this.game.grille[y + 1][x] = 7;
                     }
                     this.game.grille[y][x] = 7;
-                    this.x = x;
                     this.y = y + 1;
-
                 }
                 break;
             case 3:
                 if (this.game.grille[y][x - 1] != 5) { //gauche
                     if (this.game.grille[y][x - 1] == 6) {
+                        score += 100;
                         this.game.grille[y][x - 1] = 7;
                     }
                     this.game.grille[y][x] = 7;
                     this.x = x - 1;
-                    this.y = y;
                 }
                 break;
             case 4:
                 if (this.game.grille[y][x + 1] != 5) { //droite
                     if (this.game.grille[y][x + 1] == 6) {
+                        score += 100;
                         this.game.grille[y][x + 1] = 7;
                     }
                     this.game.grille[y][x] = 7;
                     this.x = x + 1;
-                    this.y = y;
                 }
                 break;
         }

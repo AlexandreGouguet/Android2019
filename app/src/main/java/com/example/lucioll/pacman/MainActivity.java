@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     public int i = 0;
     enum direction {north,south,west,east};
     public Game myApp = new Game();
-    public PacMan paci;
     private static Context context;
     public List<Integer> ImageSource = new ArrayList<>();
     // Create the Handler object (on the main thread by default)
@@ -45,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         //affichage initial
         GridView gridView = findViewById(R.id.gridView);
         gridView.setAdapter(adapter);
-        paci = new PacMan(4,1,4, myApp);
+
         // Start the initial runnable task by posting through the handler
         handler.post(runnableCode);
 
@@ -55,22 +54,22 @@ public class MainActivity extends AppCompatActivity {
     public void inputTriggered(View v){
         if(v.getId()==R.id.N){
             //actualiser les positions du pac-man pour le bouton Nord
-            paci.moving(1);
+            myApp.paci.moving(1);
         }
 
         if(v.getId()==R.id.O){
             //actualiser les positions du pac-man pour le bouton Ouest
-            paci.moving(3);
+            myApp.paci.moving(3);
         }
 
         if(v.getId()==R.id.E){
             //actualiser les positions du pac-man pour le bouton Est
-            paci.moving(4);
+            myApp.paci.moving(4);
         }
 
         if(v.getId()==R.id.S){
             //actualiser les positions du pac-man pour le bouton Sud
-            paci.moving(2);
+            myApp.paci.moving(2);
         }
         adapter.notifyDataSetChanged();
     }
@@ -80,8 +79,11 @@ public class MainActivity extends AppCompatActivity {
     private Runnable runnableCode = new Runnable() {
         @Override
         public void run(){
-            paci.moveAutomatic();
+            myApp.getPaci().moveAutomatic();
             System.out.println(Arrays.toString(myApp.grille[i]));
+            for (Ghost ghost : myApp.listGhost){
+                ghost.moveAutomatic();
+            }
             for (int i = 0; i < myApp.grille.length; i++){
                 System.out.println(Arrays.toString(myApp.grille[i]));
             }
